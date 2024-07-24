@@ -10791,6 +10791,40 @@
     }
 </style>
 
+<style>
+    .cookie-consent {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        text-align: center;
+        display: none;
+    }
+
+    .cookie-consent p {
+        margin: 0;
+        padding-right: 10px;
+        display: inline;
+    }
+
+    #accept-cookies {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    #accept-cookies:hover {
+        background-color: #45a049;
+    }
+</style>
+
+
+
 </head>
 
 <body class=''>
@@ -10806,6 +10840,46 @@
 
 
 
+<section id="cookie-consent" class="cookie-consent">
+    <p>Este sitio utiliza cookies para mejorar su experiencia. Al aceptar, consiente el uso de cookies.</p>
+    <button id="accept-cookies">Aceptar</button>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const consent = localStorage.getItem('cookie-consent');
+
+        if (!consent) {
+            document.getElementById('cookie-consent').style.display = 'block';
+        }
+
+        document.getElementById('accept-cookies').addEventListener('click', function () {
+            localStorage.setItem('cookie-consent', 'true');
+            document.getElementById('cookie-consent').style.display = 'none';
+            loadExternalResources();
+        });
+
+        if (consent) {
+            loadExternalResources();
+        }
+    });
+
+    function loadExternalResources() {
+        const scripts = [
+            "https://connect.facebook.net/en_US/fbevents.js",
+            "https://cdn.taboola.com/libtrc/unip/1455830/tfa.js",
+            "https://browser.sentry-cdn.com/6.18.2/bundle.min.js",
+            // Agrega aquí más URLs de scripts si es necesario
+        ];
+
+        scripts.forEach(src => {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            document.body.appendChild(script);
+        });
+    }
+</script>
 
 
     <!--pageHtmlEmbeds.bodyStart start-->
